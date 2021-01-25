@@ -10,9 +10,9 @@ It will ensure privacy by not making your queries leave your machine and make se
 
 Any big search engine company learns a lot about you from your queries, you should protect that!
 
-Big search engine companies shows you ads and you can not customize their looks easily.
+Big Search Engine companies shows you ads and you can not customize their looks easily.
 
-Big Search Engines customizes the results and you can end up in a filter boble.
+Big Search Engines customizes the results and you can end up in a filter bubble.
 
 Big Search Engine don't allow giving priority to your favorite websites like Wikipedia or other sites alike.
 
