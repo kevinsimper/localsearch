@@ -1,0 +1,11 @@
+{
+  "name": "Localsearch",
+  "version": "0.1",
+  "manifest_version": 2,
+  "omnibox": { "keyword" : "ls" },
+  "permissions": ["tabs"],
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  }
+}
