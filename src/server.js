@@ -47,6 +47,20 @@ app.get("/search", (req, res) => {
   res.redirect("https://www.google.com/search?q=" + encodeURIComponent(query));
 });
 
+app.get("/track", (req, res) => {
+  const query = req.query.q;
+  console.log("Click", query);
+  appendFile(
+    __dirname + "/clicks.csv",
+    `${query},${Date.now()}\n`,
+    "utf8",
+    (err) => {
+      if (err) console.log(err);
+    }
+  );
+  res.send("ok");
+});
+
 app.get("/suggest", async (req, res) => {
   const query = req.query.q;
   console.log("Suggest", query);
