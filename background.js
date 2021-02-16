@@ -11,11 +11,11 @@ chrome.omnibox.onInputCancelled.addListener(() => {
 });
 
 chrome.omnibox.onInputEntered.addListener((text) => {
-  chrome.tabs.create({ url: "http://localhost:8001/search?q=" + text });
+  chrome.tabs.create({ url: "http://localhost:8000/search?q=" + text });
 });
 
 chrome.omnibox.onInputChanged.addListener(async (text, suggest) => {
-  const res = await fetch(`http://localhost:8001/suggest?q=${text}`);
+  const res = await fetch(`http://localhost:8000/suggest?q=${text}`);
   const { data } = await res.json();
 
   const suggestContent = data.map((suggestion) => {

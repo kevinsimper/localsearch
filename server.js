@@ -14,7 +14,7 @@ app.get("/search", (req, res) => {
   appendFile("./queries.csv", `${query},${Date.now()}\n`, "utf8", (err) => {
     if (err) console.log(err);
   });
-  res.redirect("https://www.google.com/search?q=" + query);
+  res.redirect("https://www.google.com/search?q=" + encodeURIComponent(query));
 });
 
 app.get("/suggest", async (req, res) => {
@@ -29,5 +29,5 @@ app.get("/suggest", async (req, res) => {
   res.send({ data: data[1] });
 });
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Listeningn on http://localhost:${PORT}`));
