@@ -1,5 +1,5 @@
 import express from "express";
-import { appendFile, readFile } from "fs";
+import { appendFile, readFile, readFileSync } from "fs";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -8,28 +8,33 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
-app.get("/", (req, res) => {
-  readFile(__dirname + "/queries.csv", "utf8", (err, data) => {
-    const rows = data.split("\n");
-    const total = rows.length;
-    const sevendays = 60 * 1000 * 60 * 24 * 7;
-    const sevendaysago = Date.now() - sevendays;
-    const lastsevendays = rows.reduce((acc, cur) => {
-      const row = cur.split(",");
-      const searchdayTimestamp = parseInt(row[1]);
-      const searchday = new Date(searchdayTimestamp);
-      if (isNaN(searchdayTimestamp)) {
-        return acc;
-      }
-      return searchday > sevendaysago ? acc + 1 : acc;
-    }, 0);
+function calculate(data) {
+  const rows = data.split("\n");
+  const total = rows.length;
+  const sevendays = 60 * 1000 * 60 * 24 * 7;
+  const sevendaysago = Date.now() - sevendays;
+  const lastsevendays = rows.reduce((acc, cur) => {
+    const row = cur.split(",");
+    const searchdayTimestamp = parseInt(row[1]);
+    const searchday = new Date(searchdayTimestamp);
+    if (isNaN(searchdayTimestamp)) {
+      return acc;
+    }
+    return searchday > sevendaysago ? acc + 1 : acc;
+  }, 0);
+  return {
+    total,
+    lastsevendays,
+  };
+}
 
-    res.json({
-      queries: {
-        total,
-        lastsevendays,
-      },
-    });
+app.get("/", async (req, res) => {
+  const queries = readFileSync(__dirname + "/queries.csv", "utf8");
+  const clicks = readFileSync(__dirname + "/clicks.csv", "utf8");
+
+  res.json({
+    queries: calculate(queries),
+    clicks: calculate(clicks),
   });
 });
 
